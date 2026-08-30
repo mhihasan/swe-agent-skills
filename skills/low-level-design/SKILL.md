@@ -11,6 +11,8 @@ Scope is inside one service: classes, responsibilities, relationships, and the p
 
 **Core principle: the code runs before the prose exists.** Everything else here is downstream of that. A lesson written first and verified later contains listings that do not execute, output that was imagined, and counts that were guessed — and the reader cannot tell which parts are real.
 
+The sheet structure derives from Grokking's parking lot lesson; `references/designgurus-model.md` captures that model, and the checklist at its end is what a finished walkthrough gets validated against.
+
 ## What makes it a walkthrough rather than a design doc
 
 A design document states the final answer. A lesson shows the model being arrived at, including the moment the obvious approach stops working. The reader should be able to predict the next phase before reading it, and be corrected when they are wrong.
@@ -24,6 +26,7 @@ Three things carry that weight: leading each phase with the trap rather than the
 3. **Draw the diagrams** with `scripts/umlgen.py`. Notation key, use case, one class diagram per phase, activity, sequence, state, finished model. See `references/uml-toolkit.md`.
 4. **Write the sheets** around the verified listings. Structure in `references/structure.md`.
 5. **Verify rendering in a browser** — clipping, theme, overflow. Non-optional; see `references/verification.md`.
+6. **Check the result against the reference model.** Run the checklist in `references/designgurus-model.md`, which also records where this skill deliberately parts company with it.
 
 ## Quick reference
 
@@ -36,6 +39,7 @@ Three things carry that weight: leading each phase with the trap rather than the
 | Diagrams | Hand-authored inline SVG on CSS tokens. Never screenshots, never an external library. |
 | Numbers | Counted with a command. Never estimated. |
 | Omissions sheet | Includes self-identified weaknesses in what you did build. |
+| Every class | Exercised by the running code. A class nothing calls is a box on a diagram. |
 
 ## Red flags — stop and fix
 
