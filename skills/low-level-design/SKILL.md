@@ -48,7 +48,7 @@ Three things carry that weight: leading each phase with the trap rather than the
 
 ### Steps
 
-1. **Derive the model.** Bound the subject, find the classes, connect them, then run the seven principles and SOLID over the result — both before any code, while the model is still cheap to change. The procedure is in `references/deriving-the-model.md` — do not skip to classes from a one-line subject.
+1. **Derive the model, holding the principles as constraints.** Bound the subject, find the classes, connect them, then loop the seven principles and SOLID over the result — refactoring the model whenever a check fails, until none does. All of this before any code, while the model is still cheap to change. The procedure is in `references/deriving-the-model.md` — do not skip to classes from a one-line subject.
 2. **Build and run the implementation.** One runnable file per phase, plus the final module and its test file. Everything green before any prose. See `references/verification.md`.
 3. **Choose phases from the domain**, not from a template. Four gates in `references/structure.md`.
 4. **Draw the diagrams** with `scripts/umlgen.py`. Notation key, use case, one class diagram per phase, activity, sequence, state, finished model. See `references/uml-toolkit.md`.
@@ -74,8 +74,8 @@ Three things carry that weight: leading each phase with the trap rather than the
 | Requirements | Write the number, name the actor. A number becomes a constant; an actor names the owning class. |
 | Subtypes | Different data means a field. Different behaviour means a class. |
 | Relationships | Substitution, then lifetime, then part-of. Stop at the first yes. Inheritance last. |
-| The seven principles | Run over the model before the code, not reported over the code after. Sheet D states where each one bit. |
-| SOLID pass | Two findings is healthy. Zero means the pass was not done. |
+| The seven principles | **Design constraints, not a report card.** A failing check means refactor the model now, then re-run all seven. Loop until it holds. |
+| SOLID pass | Same rule: a violation is refactored out, not recorded. Anything left unfixed carries a written justification of what fixing it would cost. |
 | Omissions sheet | Includes self-identified weaknesses in what you did build. |
 
 ### Red flags — stop and fix
@@ -91,7 +91,10 @@ Three things carry that weight: leading each phase with the trap rather than the
 - A fork whose reasoning is an adjective rather than a count, a number, or a test result
 - Running the seven principles after the implementation is written, where they can only produce a flattering report
 - A Sheet D principle entry that restates the principle instead of naming what it changed
-- All seven principles reported as clean passes, with none of them in tension and none producing a finding
+- Recording a principle violation instead of refactoring it away — the checks are constraints, not commentary
+- An unfixed violation with no written account of what fixing it would cost
+- Running a check over "the model" without running it over every class in the model
+- A walkthrough where no phase shows the model before a principle forced a change — the checks were not run
 - Every phase reads as a smooth success, so the reader never sees a model break
 - Reaching for a screenshot of a diagram tool instead of authoring SVG
 - A subclass whose body only passes a different constant to its parent — that is a field
