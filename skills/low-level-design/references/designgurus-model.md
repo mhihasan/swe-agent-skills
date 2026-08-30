@@ -88,7 +88,9 @@ Run a finished lesson against this. Anything unchecked is either a gap or a dive
 - [ ] The SOLID pass produced findings, and they are stated
 - [ ] All seven principles have their own Sheet D entry, each naming the class, field, or relationship it changed
 - [ ] The seven were run over the model before the implementation, not reported over finished code
-- [ ] At least one principle entry reports a finding rather than a clean pass
+- [ ] Every principle check was run against every class, not only the memorable ones
+- [ ] At least one entry shows the model being changed because a check failed
+- [ ] Every violation still in the design carries a written account of what fixing it would cost
 - [ ] Where two principles pulled against each other, the walkthrough says which won and why
 - [ ] Prose sentences average under 20 words, with none over 25 — measured, not estimated
 - [ ] One term per concept throughout; no synonym variation for a class or domain noun
