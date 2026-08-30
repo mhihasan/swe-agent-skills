@@ -86,7 +86,9 @@ An entry that only restates the principle in the domain's vocabulary is not an e
 
 **Two of the seven will disagree somewhere in any real model** — cohesion pushes toward more classes, coupling toward fewer connections. Say which won and why. A sheet where all seven agree is a sheet where at least one was not run.
 
-Three things make this sheet credible rather than performative. Name the design's own worst coupling before the reader finds it. List the patterns you deliberately declined and why — declining one with a reason teaches more than applying one. And carry at least one principle entry that reports a **finding rather than a success**: a place the design does not fully honour the principle, left as is with a stated reason. Seven clean passes reads as a design that was described rather than checked.
+**Most entries should report a refactor, not a finding.** The principles are constraints applied during derivation, so the normal entry reads "cohesion failed on X, so X was split into Y and Z" — the model changed. An entry reporting an unfixed violation is the exception, and it must say what fixing it would require and why that cost was not worth paying here. An entry that merely notes a violation, with no fix and no justification, is a defect the walkthrough is displaying rather than a lesson it is teaching.
+
+Three things make this sheet credible rather than performative. Name the design's own worst coupling before the reader finds it. List the patterns you deliberately declined and why — declining one with a reason teaches more than applying one. And show at least one place a check **forced the model to change**: the class that was split, merged, or deleted because a principle failed. A sheet where nothing changed is a sheet where nothing was checked.
 
 The counterfactual is what makes composition-over-inheritance land: show that the inheritance version explodes combinatorially, with the actual multiplication.
 

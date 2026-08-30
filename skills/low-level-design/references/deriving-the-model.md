@@ -91,7 +91,15 @@ Both have the same shape: inheritance used to share a little data, by classes th
 
 Inheritance is right when the subclasses genuinely behave differently and every one honours the parent's promises. Cash and card payments both really do take money, differently.
 
-## Step 4 — Run the seven principles over the model, before any code
+## Step 4 — Design against the seven principles, and refactor until they hold
+
+> **HARD RULE. The principles are design constraints, not a report card.**
+>
+> You do not build a model and then grade it. You build the model *while holding these seven and SOLID in mind*, and **the moment a check fails, you refactor the model there and then** — before moving on, before writing code, before drawing a diagram.
+>
+> **A design that violates a principle is not finished.** Go back and change it. Merge the class, split the class, invert the dependency, delete the field, move the method. Then re-run every check, because a fix in one place breaks another.
+>
+> Shipping a violation is the **exception**, and it costs you a written justification: what fixing it would require, and why that cost is not worth paying *here*. "I noticed it" is not a justification. A finding with no such reasoning is a defect in the design, not a teaching point.
 
 SOLID in step 5 checks the class structure. These seven check the decisions that produced it, and they run first because several of them can still change the model cheaply at this point. Each has a test that yields a yes or a no, not an impression.
 
@@ -111,6 +119,25 @@ SOLID in step 5 checks the class structure. These seven check the decisions that
 
 **Do not soften a finding into a mention.** "Keep it simple" is satisfied by deleting something, not by observing that the design is fairly simple. A principle whose entry has no consequence — no class merged, split, deleted, or deliberately left as it is with a stated reason — was not actually run. Record the outcome of each as you go; step 6 hands the record to Sheet D, which must state where each of the seven bit.
 
+### The loop — run it until the model stops changing
+
+The seven are not a single pass. Fixing one violation routinely creates another, so this is a loop with a termination condition:
+
+1. Run all seven checks over the current model.
+2. **Any failure? Refactor the model to remove it.** Not a note. A change.
+3. Re-run all seven from the top, because the refactor may have broken a check that passed a minute ago.
+4. Stop when a full pass produces no failure you are unwilling to justify in writing.
+
+Two rounds is normal. Splitting a class for cohesion adds a type that coupling then objects to; that is the loop working, not a problem with it.
+
+**Every check applies to every class.** Running a check "over the model" means over each class in it, not over the two or three you happen to be thinking about. The failure mode is a check that is never run against a particular class at all, which reads exactly like a clean pass. Enumerate the classes and tick them off.
+
+Observed on a real build: a catalog's `Offer` held both price and stock. The cohesion check was applied to `Store` and reported honestly, but never applied to `Offer` at all — so the walkthrough shipped a class whose own docstring read "one store's price **and** stock". The two fields have different writers (a store manager sets price; order fulfilment decrements stock) and different rates of change, which is the "start with the data" check failing too. Two checks would have caught it, and neither was run against that class.
+
+A grep for `and` in the responsibility sentence finds candidates but decides nothing. In the same model, `Variant`'s sentence contained "and" inside a negation — "carries no price and no stock" — which is one idea, not two. Meanwhile `Store` failed the check without containing the word at all: "owns its listings, its category tree, its currency". List the classes, read each sentence, and judge it.
+
+**The refactor is the lesson.** A walkthrough that shows a class being split because cohesion failed teaches far more than one that presents the split as if it were obvious from the start. Record what the model looked like *before* the fix; the phase prose is where that lands, as the trap the reader was about to fall into.
+
 ## Step 5 — Run SOLID over the finished diagram
 
 Five checks, not a theory to recite. Run them in this order.
@@ -123,7 +150,11 @@ Five checks, not a theory to recite. Run them in this order.
 | Interface segregation | Every implementer uses everything it promised | Empty method bodies |
 | Dependency inversion | A high-level class names an interface, never a concrete low-level one | A class constructing its own collaborator |
 
-**Calibration matters more than the checks.** Two findings out of five, both real and both explainable in a sentence, is what a good pass looks like. Five findings usually means the design needs rework. **Zero findings usually means the pass was not done properly** — which is the same reason the walkthrough must name its own worst coupling.
+**The same hard rule applies here.** A SOLID violation is refactored out, not recorded. Re-run the seven afterwards, because a SOLID fix moves classes around and the seven are sensitive to that.
+
+**Calibration, given that the rule is being followed.** By the time you stop, the design should satisfy all five. What remains is the small set you *chose* not to fix, each with the cost written down — typically one, sometimes two, and each one a decision you can defend out loud.
+
+**Zero remaining findings is suspicious in one specific way.** It is the right outcome if you refactored your way there, and the wrong one if you simply never looked. The distinction is visible in the walkthrough: a design that reached zero by refactoring has a phase showing the model *before* the fix. A design that reached zero by not looking has no such moment anywhere. If you cannot point at a single place the checks changed your model, you did not run them.
 
 Two counter-rules. Do not add an interface with one implementer and no second in sight; that is indirection with no benefit. Do not split past the sentence test — single responsibility taken too far yields thirty two-method classes nobody can hold in their head.
 
