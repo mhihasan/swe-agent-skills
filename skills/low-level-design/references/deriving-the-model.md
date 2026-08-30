@@ -8,6 +8,8 @@ The method is adapted from the method chapters of Grokking the Object-Oriented D
 
 The source runs five steps — requirements, actors, classes, relationships, then code last. That is the order for *deriving a design*, and it is right.
 
+This file runs six, because it inserts a principles pass (step 4) between the relationships and SOLID. The source has no equivalent, and its absence is why its own case study ships five spot subclasses that differ only by a constant — a "keep it simple" check run before the code would have caught that, and the source only catches it in its closing self-criticism.
+
 It is not the order for *authoring a walkthrough*, where the implementation must be green before any prose exists. There is no contradiction: derive the model in the order below, write it as running code, and only then write the lesson around it. Do not read "code last" as licence to publish unexecuted listings.
 
 ## Step 1 — Bound the subject
@@ -89,7 +91,27 @@ Both have the same shape: inheritance used to share a little data, by classes th
 
 Inheritance is right when the subclasses genuinely behave differently and every one honours the parent's promises. Cash and card payments both really do take money, differently.
 
-## Step 4 — Run SOLID over the finished diagram
+## Step 4 — Run the seven principles over the model, before any code
+
+SOLID in step 5 checks the class structure. These seven check the decisions that produced it, and they run first because several of them can still change the model cheaply at this point. Each has a test that yields a yes or a no, not an impression.
+
+| Principle | The check that decides it | Fails when |
+|---|---|---|
+| Start with the data | For every field, name who writes it. Fields with different writers belong to different objects | One object holds fields written by two different actors |
+| High cohesion | State each class's responsibility in one sentence with no "and" | The sentence needs an "and", or the class name is a category rather than a thing |
+| Low coupling | Count the types each class names. Compare the highest against where your boundaries are | The highest count sits on a leaf class rather than at a deliberate boundary |
+| Favour composition over inheritance | Multiply the independent axes of variation. Compare that number against the composed version's additions | The inheritance version multiplies where the composed version adds |
+| Depend on abstractions | Follow each dependency arrow from high-level to low-level. It should end at an interface | A high-level class names a concrete low-level type, or builds its own collaborator |
+| Separate creation from use | Find every place an object is constructed. Ask whether the constructing class also uses it | A class picks which concrete type to build *and* then drives it |
+| Keep it simple | For each class, ask what breaks if it is deleted and its work inlined | Nothing breaks — the class was carrying no behaviour |
+
+**The first one runs before the others, and it does the most work.** Naming the writer of every field is what produces the object boundaries; the remaining six mostly confirm or correct boundaries that step already drew. In a multi-tenant catalog, asking who writes `price` versus who writes `title` is what splits the shared definition from the per-store listing, and no amount of noun-underlining gets there as directly.
+
+**Two of the seven routinely disagree, and that is the point.** Low coupling pushes toward fewer connections; high cohesion pushes toward classes small enough to state in one sentence, which makes more of them. When they pull against each other, say which one you let win and why — that sentence is worth more to a reader than either principle stated on its own.
+
+**Do not soften a finding into a mention.** "Keep it simple" is satisfied by deleting something, not by observing that the design is fairly simple. A principle whose entry has no consequence — no class merged, split, deleted, or deliberately left as it is with a stated reason — was not actually run. Record the outcome of each as you go; step 6 hands the record to Sheet D, which must state where each of the seven bit.
+
+## Step 5 — Run SOLID over the finished diagram
 
 Five checks, not a theory to recite. Run them in this order.
 
@@ -105,7 +127,7 @@ Five checks, not a theory to recite. Run them in this order.
 
 Two counter-rules. Do not add an interface with one implementer and no second in sight; that is indirection with no benefit. Do not split past the sentence test — single responsibility taken too far yields thirty two-method classes nobody can hold in their head.
 
-## Step 5 — Name the patterns that fit, and the ones that do not
+## Step 6 — Name the patterns that fit, and the ones that do not
 
 The repo's `design-patterns-expert` skill covers the full catalogue. What matters here is the signal that says a pattern applies, and the anti-signal that says it does not.
 
@@ -124,4 +146,6 @@ One or two patterns is the right number for a model this size. A design carrying
 
 ## Where this feeds the walkthrough
 
-Steps 1 and 2 become Sheet A and Sheet B. Step 2's class list and step 3's relationships determine the phase boundaries — a phase that cuts across a composition is usually cutting in the wrong place. Step 4's findings are what Sheet D and Sheet E are honest about. Step 5 fills the patterns table, including its declined column.
+Steps 1 and 2 become Sheet A and Sheet B. Step 2's class list and step 3's relationships determine the phase boundaries — a phase that cuts across a composition is usually cutting in the wrong place. Step 4's record of the seven principles is what Sheet D reports against, one entry per principle. Step 5's findings are what Sheet D and Sheet E are honest about. Step 6 fills the patterns table, including its declined column.
+
+Note the ordering that matters most: steps 4 and 5 run **before** the implementation, on the model. Their findings are meant to change the design while changing it is still cheap. Writing the code first and then running the principles over it produces a report rather than a design, and the report will be flattering, because nobody finds a class worth deleting in code they just finished writing.

@@ -41,9 +41,24 @@ Order by dependency, not importance. At least one phase must be a genuine struct
 - Prose that leads with the trap: what most people reach for here and why it does not hold. The reasoning is the transferable part.
 - A UML class diagram for the phase.
 - A relationships list in plain words, with cardinality and whether each is composition or reference. This doubles as the text alternative to the diagram.
-- One code listing lifted verbatim from the module you ran. Twenty to thirty-five lines — the part carrying the idea, not the whole file. Comment only where the reasoning is invisible from the code.
+- The file name and the command that runs this phase, stated before the listing: `phases/phase3_overrides.py`, `python3 phases/phase3_overrides.py`. A reader must be able to run the thing they are reading.
+- One code listing lifted verbatim from that file. Twenty to thirty-five lines — the part carrying the idea, not the whole file. Comment only where the reasoning is invisible from the code.
+- A justification line for anything new this phase introduces. Name the requirement number each class, field, and method serves, or the rule it enforces. A field serving nothing is scaffolding: delete it, or say what it is for.
 - Real verified output where the phase produces any.
-- At least one decision note, marked as such, first person, at the fork. Say what was rejected and what would change the answer. A note that only restates what the code does is wasted; the value is in the alternative that was not taken.
+- At least one decision note, marked as such, first person, at the fork.
+
+**A decision note carries four parts, in this order. A note missing any of them is a justification, not a judgement.**
+
+1. **The choice**, in one sentence.
+2. **The alternative that was rejected**, stated fairly enough that a reader can see why someone would pick it. If the rejected option sounds obviously stupid, it has been described unfairly, and the note teaches nothing.
+3. **What the choice costs.** Every real decision buys one property with another. A note claiming a free win is a note that has not found the price yet — keep looking, because the reader will find it.
+4. **The condition that would reverse it.** Name the specific change in requirements, scale, or team that flips the answer. "If read volume grows" is weak. "At roughly ten thousand listings per page load, resolution becomes a join per row, and I would materialise" is a judgement someone can act on.
+
+A note that only restates what the code does is wasted. So is one that lists a trade-off without saying which side won and why.
+
+**Engineering judgement is the part that transfers.** The code in a walkthrough is disposable — a reader's domain is different. What survives is the reasoning: how a fork was recognised, which forces were weighed, what evidence decided it. Show the weighing, including the parts that were close. A design where every decision was obvious is a design nobody had to think about, and reading it teaches nobody how to think.
+
+Prefer evidence over assertion at every fork. "Three implementations already exist" beats "this is more extensible". "The tests stayed green after deleting it" beats "the class was unnecessary". A number, a count, or a passing test is judgement a reader can check; an adjective is not.
 
 ## Sheet C — The finished model
 
@@ -55,11 +70,27 @@ Then state the partitioning principle. For business systems it is usually rate o
 
 Not a recitation. Each principle tied to the line where it changed a decision.
 
-Cover, in roughly this order: start with the data; the patterns table with what each one bought; SOLID with the concrete bite for each; cohesion and coupling made measurable; composition over inheritance argued by counterfactual; depend on abstractions; separate creation from use; and keep it simple.
+**Every one of the seven principles from step 4 of `deriving-the-model.md` gets its own entry, and every entry says where it bit.** Not that the principle is good, not that the design broadly honours it — the specific class, field, or relationship that came out different because the check was run. This is the sheet's spine, so give the seven their own section rather than scattering them through the prose.
 
-Two things make this sheet credible rather than performative. Name the design's own worst coupling before the reader finds it. And list the patterns you deliberately declined and why — declining one with a reason teaches more than applying one.
+| Principle | The entry must name |
+|---|---|
+| Start with the data | The field whose writer decided a boundary, and the boundary it decided |
+| High cohesion | A class that passed the one-sentence test and one that failed it |
+| Low coupling | The class naming the most types, and whether that is a boundary doing its job or a defect |
+| Favour composition over inheritance | The counterfactual, with the actual multiplication |
+| Depend on abstractions | The dependency that points at an interface, and any that still points at a concrete type |
+| Separate creation from use | Where construction was pulled out of a class that uses the result — or why it was left in |
+| Keep it simple | Something deleted, merged, or declined, with what was verified after removing it |
+
+An entry that only restates the principle in the domain's vocabulary is not an entry. "The catalog keeps things simple" says nothing; "the two product subclasses were written, tested green, then deleted when it turned out one had a body of a single constant" is checkable, and the reader can go and look.
+
+**Two of the seven will disagree somewhere in any real model** — cohesion pushes toward more classes, coupling toward fewer connections. Say which won and why. A sheet where all seven agree is a sheet where at least one was not run.
+
+Three things make this sheet credible rather than performative. Name the design's own worst coupling before the reader finds it. List the patterns you deliberately declined and why — declining one with a reason teaches more than applying one. And carry at least one principle entry that reports a **finding rather than a success**: a place the design does not fully honour the principle, left as is with a stated reason. Seven clean passes reads as a design that was described rather than checked.
 
 The counterfactual is what makes composition-over-inheritance land: show that the inheritance version explodes combinatorially, with the actual multiplication.
+
+The rest of the sheet, in roughly this order: the patterns table with what each one bought, and SOLID with the concrete bite for each.
 
 ## Sheet E — What we left out
 
@@ -77,6 +108,37 @@ Each exercise should have a checkable outcome, so a reader working alone can tel
 
 ## Writing constraints
 
-Plain prose and code. No emoji, no status markers, no confidence percentages, no "Executive Summary" headers, no bulleted lists where every item opens with the same verb form. Vary sentence length. Concrete detail over generality.
+Plain prose and code. No emoji, no status markers, no confidence percentages, no "Executive Summary" headers, no bulleted lists where every item opens with the same verb form. Concrete detail over generality.
 
 Never state a fact you have not checked.
+
+### Write in Simplified Technical English
+
+Follow the principles of ASD-STE100. A reader works to follow the design; they must not also work to follow the sentence.
+
+**One idea per sentence. Aim for 20 words. Never exceed 25.** This is the rule that does the most work, and it is the one most often broken while writing prose that feels fluent. Count the words in any sentence carrying a dash, a colon, and a comma-joined clause — it is usually over 30, and it is usually two or three sentences that were never separated.
+
+**Active voice, present tense.** "The listing owns its offers", not "offers are owned by the listing". Name the actor performing every action.
+
+**One term per concept, always the same term.** Pick `listing` or `store product`, then never use the other. Synonym variation is a habit from essay writing and it is a defect here: a reader cannot tell whether a new word means a new thing. This applies to the model's own vocabulary above all — if the class is `Offer`, the prose says offer, not "price record" or "the store's entry".
+
+**Explain a term the first time it appears.** Multi-tenant, aggregate root, minor unit, cartesian product, denormalised — each gets a short gloss at first use. A walkthrough teaches; assumed vocabulary is where teaching quietly stops.
+
+**Split, do not join.** When a sentence needs an em dash, a semicolon, or a parenthesis to hold a second thought, that thought is a sentence. Two plain sentences beat one elegant compound.
+
+Prose sentences under 20 words on average, with none over 25, is the target. Measure it before publishing rather than trusting the feel of it:
+
+```bash
+python3 - <<'EOF'
+import re, pathlib
+s = pathlib.Path("page.html").read_text()
+text = " ".join(re.sub(r"<[^>]+>", "", p) for p in re.findall(r"<p>(.*?)</p>", s, flags=re.S))
+sents = [x for x in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", text)) if len(x.split()) > 2]
+lens = [len(x.split()) for x in sents]
+print(f"mean {sum(lens)/len(lens):.1f}w, {sum(1 for l in lens if l>25)} over 25w")
+for x in sorted(sents, key=lambda s: -len(s.split()))[:5]:
+    print(f"  [{len(x.split())}w] {x[:110]}")
+EOF
+```
+
+Anything over 25 words gets split before publishing. No exceptions for a sentence you like.
