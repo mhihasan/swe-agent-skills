@@ -73,8 +73,26 @@ Run a finished lesson against this. Anything unchecked is either a gap or a dive
 - [ ] Numbers in the lesson were counted with a command
 - [ ] No phase introduces a hierarchy before its second variant exists, unless the lesson says why
 - [ ] Every class traces back to a numbered requirement
+- [ ] Every field and every method traces to a requirement or to a named rule it enforces
+- [ ] The deliverable is a folder in the user's project, not a scratch directory
+- [ ] Each phase is a module plus a sibling `unittest` test file, laid out like production code
+- [ ] The module's `__main__` is a readable demo that asserts nothing
+- [ ] Test methods are named after the rule they check, one per rule
+- [ ] Every phase pair was run in an empty directory with the other phases removed
+- [ ] Each listing on the page names its file and the command that runs it
+- [ ] The final module and its test suite both run green
 - [ ] Every requirement verb has a class to live on
 - [ ] No subclass exists that only passes a constant to its parent
 - [ ] Every inheritance arrow survives the substitution test
 - [ ] Multiplicity appears on every association that has one
 - [ ] The SOLID pass produced findings, and they are stated
+- [ ] All seven principles have their own Sheet D entry, each naming the class, field, or relationship it changed
+- [ ] The seven were run over the model before the implementation, not reported over finished code
+- [ ] At least one principle entry reports a finding rather than a clean pass
+- [ ] Where two principles pulled against each other, the walkthrough says which won and why
+- [ ] Prose sentences average under 20 words, with none over 25 — measured, not estimated
+- [ ] One term per concept throughout; no synonym variation for a class or domain noun
+- [ ] Every unavoidable technical term is glossed at first use
+- [ ] Every decision note names the cost of the choice, not only the rejected alternative
+- [ ] Every decision note names the specific condition that would reverse it
+- [ ] Forks are decided by counts, numbers, or test results rather than adjectives
