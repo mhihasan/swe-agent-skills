@@ -24,6 +24,12 @@ Works with Claude Code, OpenCode, Cursor, and GitHub Copilot.
 | `/de-slop` | Strip AI writing patterns from any text — docs, READMEs, posts, emails — and rewrite it to sound human |
 | `/generating-design-doc` | Document an existing codebase as a structured architecture document |
 
+### Design & Modelling
+
+| Skill | What it does |
+|---|---|
+| `/low-level-design` | Work out a system's low-level design as a staged walkthrough — requirements, actors, a model that accumulates phase by phase, UML throughout, and running code |
+
 ## Installation
 
 **One-liner (recommended):**
