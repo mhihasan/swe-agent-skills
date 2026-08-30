@@ -21,12 +21,13 @@ Three things carry that weight: leading each phase with the trap rather than the
 
 ## Workflow
 
-1. **Build and run the implementation.** One module, one test file, green before anything else. See `references/verification.md`.
-2. **Choose phases from the domain**, not from a template. Four gates in `references/structure.md`.
-3. **Draw the diagrams** with `scripts/umlgen.py`. Notation key, use case, one class diagram per phase, activity, sequence, state, finished model. See `references/uml-toolkit.md`.
-4. **Write the sheets** around the verified listings. Structure in `references/structure.md`.
-5. **Verify rendering in a browser** — clipping, theme, overflow. Non-optional; see `references/verification.md`.
-6. **Check the result against the reference model.** Run the checklist in `references/designgurus-model.md`, which also records where this skill deliberately parts company with it.
+1. **Derive the model.** Bound the subject, find the classes, connect them, run SOLID over the result. The procedure is in `references/deriving-the-model.md` — do not skip to classes from a one-line subject.
+2. **Build and run the implementation.** One module, one test file, green before anything else. See `references/verification.md`.
+3. **Choose phases from the domain**, not from a template. Four gates in `references/structure.md`.
+4. **Draw the diagrams** with `scripts/umlgen.py`. Notation key, use case, one class diagram per phase, activity, sequence, state, finished model. See `references/uml-toolkit.md`.
+5. **Write the sheets** around the verified listings. Structure in `references/structure.md`.
+6. **Verify rendering in a browser** — clipping, theme, overflow. Non-optional; see `references/verification.md`.
+7. **Check the result against the reference model.** Run the checklist in `references/designgurus-model.md`, which also records where this skill deliberately parts company with it.
 
 ## Quick reference
 
@@ -40,6 +41,10 @@ Three things carry that weight: leading each phase with the trap rather than the
 | Numbers | Counted with a command. Never estimated. |
 | Omissions sheet | Includes self-identified weaknesses in what you did build. |
 | Every class | Exercised by the running code. A class nothing calls is a box on a diagram. |
+| Requirements | Write the number, name the actor. A number becomes a constant; an actor names the owning class. |
+| Subtypes | Different data means a field. Different behaviour means a class. |
+| Relationships | Substitution, then lifetime, then part-of. Stop at the first yes. Inheritance last. |
+| SOLID pass | Two findings is healthy. Zero means the pass was not done. |
 
 ## Red flags — stop and fix
 
@@ -50,6 +55,10 @@ Three things carry that weight: leading each phase with the trap rather than the
 - A lesson with no self-identified flaws — not credible, teaches nothing
 - Every phase reads as a smooth success, so the reader never sees a model break
 - Reaching for a screenshot of a diagram tool instead of authoring SVG
+- A subclass whose body only passes a different constant to its parent — that is a field
+- A subclass that has to refuse one of its parent's methods — that is a broken hierarchy
+- A verb from the requirements with no class to live on — a class is missing
+- A class name that traces back to no requirement
 
 ## Common mistakes
 

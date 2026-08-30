@@ -72,3 +72,9 @@ Run a finished lesson against this. Anything unchecked is either a gap or a dive
 - [ ] Every class in the model is exercised by the running code
 - [ ] Numbers in the lesson were counted with a command
 - [ ] No phase introduces a hierarchy before its second variant exists, unless the lesson says why
+- [ ] Every class traces back to a numbered requirement
+- [ ] Every requirement verb has a class to live on
+- [ ] No subclass exists that only passes a constant to its parent
+- [ ] Every inheritance arrow survives the substitution test
+- [ ] Multiplicity appears on every association that has one
+- [ ] The SOLID pass produced findings, and they are stated
