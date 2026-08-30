@@ -26,7 +26,7 @@ Then find the split between two actors that shapes the model, and state it in on
 
 ## Phases 1 to N
 
-**Choosing them.** A phase qualifies only if it satisfies all four gates:
+**Choosing them.** The class list and relationships from `deriving-the-model.md` set the boundaries — a phase that cuts across a composition is usually cutting in the wrong place. A phase qualifies only if it satisfies all four gates:
 
 1. It produces a working slice — something runnable and demonstrable alone.
 2. It introduces exactly one significant idea.
